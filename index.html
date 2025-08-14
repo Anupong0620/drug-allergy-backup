@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ตรวจสอบประวัติแพ้ยา (ใส่รหัสก่อนเข้า)</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #0b1220; color: #fff; margin: 0; padding: 20px; }
+    .container { max-width: 900px; margin: auto; display: none; }
+    input, button { padding: 10px; margin: 5px 0; border-radius: 6px; border: none; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { padding: 8px; border-bottom: 1px solid #333; }
+    th { background: #111; position: sticky; top: 0; }
+    tr:hover { background: #222; }
+    .upload-info { margin-top: 8px; font-size: 0.9em; color: #bbb; }
+    #login { text-align: center; padding-top: 50px; }
+  </style>
+</head>
+<body>
+<div id="login">
+  <h2>กรุณาใส่รหัสเพื่อเข้าใช้งาน</h2>
+  <input type="password" id="passcode" placeholder="รหัสผ่าน">
+  <br>
+  <button id="loginBtn">เข้าสู่ระบบ</button>
+  <div id="loginMsg" style="color:#f88;margin-top:10px;"></div>
+</div>
+
+<div class="container" id="app">
+  <h1>ตรวจสอบประวัติแพ้ยา</h1>
+  <input type="text" id="q" placeholder="ค้นหาชื่อหรือ HN">
+  <br>
+  <input type="file" id="fileInput" accept=".csv,.json,.xls,.xlsx">
+  <div id="fileMeta" style="font-size:12px;color:#9aa4b2;margin-top:4px">อัปโหลดล่าสุด: <span id="lastUpload">—</span> <span id="fileNameWrap" style="margin-left:8px">ไฟล์: <span id="fileName">—</span></span></div>
+  <div class="upload-info" id="uploadInfo">ยังไม่เคยอัปโหลดไฟล์</div>
+  <table>
+    <thead>
+      <tr><th>ชื่อ</th><th>HN</th><th>ยา</th><th>อาการ</th><th>วันที่รายงาน</th></tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script>
+const PASSCODE = "11251"; // รหัสที่ต้องใส่ก่อนเข้าใช้งาน
+
+// ระบบล็อกอินง่ายๆ
+const loginDiv = document.getElementById('login');
+const appDiv = document.getElementById('app');
+const loginBtn = document.getElementById('loginBtn');
+const passcodeInput = document.getElementById('passcode');
+const loginMsg = document.getElementById('loginMsg');
+
+loginBtn.addEventListener('click', () => {
+  if (passcodeInput.value === PASSCODE) {
+    loginDiv.style.display = 'none';
+    appDiv.style.display = 'block';
+  } else {
+    loginMsg.textContent = 'รหัสไม่ถูกต้อง';
+  }
+});
+
+let DATA = [];
+const q = document.getElementById('q');
+const rows = document.getElementById('rows');
+const lastUploadEl = document.getElementById('lastUpload');
+const fileNameEl = document.getElementById('fileName');
+const uploadInfo = document.getElementById('uploadInfo');
+
+const LS_TS_KEY = 'rx_last_upload_ts';
+const LS_NAME_KEY = 'rx_last_upload_name';
+
+function fmtThai(dtIso){
+  try { return new Date(dtIso).toLocaleString('th-TH'); } catch(e){ return '—'; }
+}
+function updateFileMeta(ts, name){
+  if (ts) localStorage.setItem(LS_TS_KEY, ts);
+  if (name) localStorage.setItem(LS_NAME_KEY, name);
+  const tsVal = ts || localStorage.getItem(LS_TS_KEY);
+  const nameVal = name || localStorage.getItem(LS_NAME_KEY);
+  if (lastUploadEl) lastUploadEl.textContent = tsVal ? fmtThai(tsVal) : '—';
+  if (fileNameEl) fileNameEl.textContent = nameVal || '—';
+}
+updateFileMeta();
+
+document.getElementById('fileInput').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  const ext = file.name.split('.').pop().toLowerCase();
+  const uploadDate = new Date().toLocaleString('th-TH');
+  uploadInfo.textContent = `อัปโหลดล่าสุด: ${file.name} (${uploadDate})`;
+
+  reader.onload = function(ev) {
+    if (ext === 'csv' || ext === 'json') {
+      if (ext === 'csv') {
+        const text = ev.target.result;
+        const [header, ...lines] = text.split(/\r?\n/);
+        const headers = header.split(',');
+        DATA = lines.map(line => {
+          const cols = line.split(',');
+          let obj = {};
+          headers.forEach((h, i) => obj[h.trim()] = cols[i]);
+          return obj;
+        });
+      } else {
+        DATA = JSON.parse(ev.target.result);
+      }
+    } else if (ext === 'xls' || ext === 'xlsx') {
+      const wb = XLSX.read(ev.target.result, { type: 'binary' });
+      const wsname = wb.SheetNames[0];
+      const ws = wb.Sheets[wsname];
+      DATA = XLSX.utils.sheet_to_json(ws);
+    }
+    render(DATA);
+    updateFileMeta(new Date().toISOString(), file.name);
+  };
+
+  if (ext === 'xls' || ext === 'xlsx') reader.readAsBinaryString(file);
+  else reader.readAsText(file);
+});
+
+q.addEventListener('input', () => {
+  const val = q.value.toLowerCase();
+  const filtered = DATA.filter(r =>
+    (r.name || r.ชื่อ || '').toString().toLowerCase().includes(val) ||
+    (r.hn || '').toString().toLowerCase().includes(val)
+  );
+  render(filtered);
+});
+
+function render(data) {
+  rows.innerHTML = data.map(r => `<tr><td>${r.name || r.ชื่อ || ''}</td><td>${r.hn || ''}</td><td>${r.agent || r.ยา || ''}</td><td>${r.symptom || r.อาการ || ''}</td><td>${r.report_date || r.วันที่ || ''}</td></tr>`).join('');
+}
+</script>
+</body>
+</html>
