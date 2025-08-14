@@ -22,24 +22,29 @@
 
     /* --- LOGIN --- */
     .login-wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:10}
-    .login-card{width:min(380px,92vw);background:linear-gradient(180deg,#0f172a,#0b1323);border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 50px rgba(0,0,0,.45);border-radius:18px;padding:22px}
+    .login-card{width:min(420px,92vw);background:linear-gradient(180deg,#0f172a,#0b1323);border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 50px rgba(0,0,0,.45);border-radius:18px;padding:22px}
     .brand{display:flex;align-items:center;gap:12px;margin-bottom:8px}
-    .logo{width:42px;height:42px;border-radius:12px;background:conic-gradient(from 210deg, #22d3ee, #8b5cf6);display:grid;place-items:center;color:#021024;font-weight:800}
     .logo-img{width:42px;height:42px;border-radius:12px;object-fit:contain;background:#0b1220;border:1px solid rgba(255,255,255,.08)}
     .brand .title{font-weight:700;font-size:18px}
     .sub{color:var(--muted);font-size:13px;margin-bottom:12px}
-    .field{position:relative;width:min(100%,300px);margin:0 auto 0 0}
-    .field input{width:100%;padding-right:44px}
-    .toggle-eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:transparent;border:1px solid transparent;padding:6px;border-radius:8px}
+
+    /* PIN style */
+    .pin-wrap{display:flex;gap:8px;align-items:center;justify-content:flex-start;margin:8px 0}
+    .pin{display:flex;gap:8px;align-items:center}
+    .pin input{width:48px;height:56px;padding:0;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:#0b1120;color:#e5e7eb;text-align:center;font-weight:700;font-size:22px;outline:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+    .pin input:focus{border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.2)}
+    .pin-label{font-size:12px;color:var(--muted);margin-right:6px;min-width:72px}
+    @media (max-width: 420px){ .pin input{width:44px;height:52px} }
+
     .hint{font-size:12px;color:var(--muted);margin-top:6px}
     .err{color:var(--err);font-size:12px;min-height:16px;margin-top:6px}
     .actions{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px}
     .remember{display:flex;align-items:center;gap:8px;font-size:13px;color:#cbd5e1}
     .btn-primary{background:#1f2937}
     .login-card.shake{animation:shake .28s linear}
-    @keyframes shake{10%,90%{transform:translateX(-1px)}20%,80%{transform:translateX(2px)}30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}}/* brand in app header */
-    @media (max-width: 420px){ .field{ width:100%; } }
+    @keyframes shake{10%,90%{transform:translateX(-1px)}20%,80%{transform:translateX(2px)}30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}}
 
+    /* brand in app header */
     .brand-app{display:flex;align-items:center;gap:10px}
     .logo-img.small{width:28px;height:28px;border-radius:8px}
 
@@ -65,12 +70,18 @@
     </div>
     <div class="sub">ป้อนรหัส 5 หลักที่ได้รับจากผู้ดูแล เพื่อเข้าใช้งานเครื่องมือตรวจสอบประวัติแพ้ยา</div>
 
-    <div class="field">
-      <input type="password" id="passcode" placeholder="เช่น 11251" inputmode="numeric" autocomplete="one-time-code" autofocus>
-      <button id="togglePass" class="toggle-eye" type="button" aria-label="แสดง/ซ่อนรหัส">
-        <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z" stroke="#9ca3af"/><circle cx="12" cy="12" r="3" fill="#9ca3af"/></svg>
-      </button>
+    <!-- PIN inputs -->
+    <div class="pin-wrap">
+      <div class="pin-label">รหัสเข้าใช้</div>
+      <div class="pin" id="pinBox">
+        <input class="pin-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Digit 1">
+        <input class="pin-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Digit 2">
+        <input class="pin-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Digit 3">
+        <input class="pin-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Digit 4">
+        <input class="pin-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Digit 5">
+      </div>
     </div>
+
     <div class="actions">
       <label class="remember"><input type="checkbox" id="rememberMe"> จำอุปกรณ์นี้</label>
       <div style="display:flex;gap:6px;align-items:center">
@@ -138,20 +149,15 @@
 const PASSCODE = "11251";       // รหัสก่อนเข้าใช้
 const MAX_TRIES = 5;             // ใส่ผิดได้กี่ครั้ง
 const LOCK_MS   = 15000;         // ล็อกชั่วคราวกี่มิลลิวินาทีเมื่อใส่ผิดครบ
-const BRAND = {
-  name: 'โรงพยาบาลชาติตระการ',
-  logoSrc: './logo.png',
-  showOnAppHeader: true
-};
+const BRAND = { name:'โรงพยาบาลชาติตระการ', logoSrc:'./logo.png', showOnAppHeader:true };
+const PIN_LEN = 5;
 
 // ===== Elements =====
 const els = {
   login: document.getElementById('login'),
   loginCard: document.getElementById('loginCard'),
-  pass: document.getElementById('passcode'),
+  pinInputs: Array.from(document.querySelectorAll('.pin-input')),
   btnLogin: document.getElementById('loginBtn'),
-  btnToggle: document.getElementById('togglePass'),
-  eyeIcon: document.getElementById('eyeIcon'),
   msg: document.getElementById('loginMsg'),
   remember: document.getElementById('rememberMe'),
   lastLoginInfo: document.getElementById('lastLoginInfo'),
@@ -184,14 +190,8 @@ const els = {
 // ===== Brand setup =====
 (function setupBrand(){
   try {
-    if (BRAND && BRAND.logoSrc) {
-      els.brandLogo.src = BRAND.logoSrc; els.brandLogoApp.src = BRAND.logoSrc;
-      els.brandLogoApp.style.display = 'block';
-    }
-    if (BRAND && BRAND.name) {
-      els.brandTitle.textContent = BRAND.name + ' • เข้าสู่ระบบ';
-      els.appTitle.textContent = BRAND.name + ' • ตรวจสอบประวัติแพ้ยา';
-    }
+    if (BRAND.logoSrc){ els.brandLogo.src = BRAND.logoSrc; els.brandLogoApp.src = BRAND.logoSrc; els.brandLogoApp.style.display='block'; }
+    if (BRAND.name){ els.brandTitle.textContent = BRAND.name + ' • เข้าสู่ระบบ'; els.appTitle.textContent = BRAND.name + ' • ตรวจสอบประวัติแพ้ยา'; }
   } catch {}
 })();
 
@@ -217,17 +217,40 @@ function setMeta({updated,name,source}){
 function saveCache(){ localStorage.setItem(LS_DATA, JSON.stringify(DATA)); setMeta({updated:new Date().toISOString()}); }
 function loadCache(){ try{ const raw=localStorage.getItem(LS_DATA); if(raw){ DATA = JSON.parse(raw)||[]; } }catch{} setMeta({}); render(DATA); }
 
-// ===== Auth =====
+// ===== Auth (PIN) =====
 function normalizeDigits(s){ if(!s) return ''; const map={'๐':'0','๑':'1','๒':'2','๓':'3','๔':'4','๕':'5','๖':'6','๗':'7','๘':'8','๙':'9'}; return s.replace(/[๐-๙]/g,ch=>map[ch]||ch); }
 function isLocked(){ return Date.now() < lockUntil; }
 function updateLockMsg(){ if(!isLocked()){ els.msg.textContent=''; return; } const left = Math.max(0, Math.ceil((lockUntil - Date.now())/1000)); els.msg.textContent = `ใส่รหัสผิดหลายครั้ง กรุณารอ ${left}s`; if(left<=0){ clearInterval(lockTimer); lockTimer=null; els.msg.textContent=''; } }
 function showApp(){ els.login.style.display='none'; els.app.style.display='block'; }
 function setLoggedIn(persistent){ if(persistent) localStorage.setItem(LS_GATE_PERM,'1'); else sessionStorage.setItem('rx_gate_ok','1'); localStorage.setItem(LS_LAST_LOGIN, new Date().toISOString()); showApp(); }
-function tryLogin(){ if(isLocked()) return; const code = normalizeDigits((els.pass.value||'').trim()); if(code===PASSCODE){ setLoggedIn(els.remember.checked); } else { tries++; els.msg.textContent='รหัสไม่ถูกต้อง'; els.loginCard.classList.remove('shake'); void els.loginCard.offsetWidth; els.loginCard.classList.add('shake'); if(tries>=MAX_TRIES){ lockUntil = Date.now()+LOCK_MS; updateLockMsg(); lockTimer = setInterval(updateLockMsg, 500); tries=0; } els.pass.focus(); els.pass.select?.(); } }
+function getPIN(){ return normalizeDigits(els.pinInputs.map(i=>i.value).join('')); }
+function clearPIN(){ els.pinInputs.forEach(i=>i.value=''); els.pinInputs[0]?.focus(); }
+function tryLogin(){ if(isLocked()) return; const code = getPIN(); if(code===PASSCODE){ setLoggedIn(document.getElementById('rememberMe').checked); } else { tries++; els.msg.textContent='รหัสไม่ถูกต้อง'; els.loginCard.classList.remove('shake'); void els.loginCard.offsetWidth; els.loginCard.classList.add('shake'); if(tries>=MAX_TRIES){ lockUntil = Date.now()+LOCK_MS; updateLockMsg(); lockTimer = setInterval(updateLockMsg, 500); tries=0; clearPIN(); } } }
+
+// PIN behaviors (auto-advance / backspace / paste)
+els.pinInputs.forEach((inp,idx)=>{
+  inp.addEventListener('input', e=>{
+    let v = normalizeDigits(inp.value).replace(/\D/g,'');
+    if(v.length>1){ // handle paste
+      const chars = v.split('');
+      let i=idx;
+      for(const ch of chars){ if(i<PIN_LEN){ els.pinInputs[i].value = ch; i++; } }
+      if(i===PIN_LEN){ els.pinInputs[PIN_LEN-1].focus(); }
+    } else {
+      inp.value = v; if(v && idx<PIN_LEN-1){ els.pinInputs[idx+1].focus(); }
+    }
+  });
+  inp.addEventListener('keydown', e=>{
+    if(e.key==='Backspace' && !inp.value && idx>0){ els.pinInputs[idx-1].focus(); els.pinInputs[idx-1].value=''; }
+    if(e.key==='ArrowLeft' && idx>0){ els.pinInputs[idx-1].focus(); }
+    if(e.key==='ArrowRight' && idx<PIN_LEN-1){ els.pinInputs[idx+1].focus(); }
+    if(e.key==='Enter'){ tryLogin(); }
+  });
+});
+
 els.btnLogin.addEventListener('click', tryLogin);
-els.pass.addEventListener('keydown', e=>{ if(e.key==='Enter') tryLogin(); });
-els.btnToggle.addEventListener('click', ()=>{ const show = els.pass.type==='password'; els.pass.type = show? 'text':'password'; els.eyeIcon.innerHTML = show ? '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z" stroke="#9ca3af"/><circle cx="12" cy="12" r="3" fill="#9ca3af"/>' : '<path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.8 21.8 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 5c7 0 11 7 11 7a21.8 21.8 0 0 1-3.17 3.95M1 1l22 22" stroke="#9ca3af"/>'; });
-(function(){ const last = localStorage.getItem(LS_LAST_LOGIN); if(last){ els.lastLoginInfo.textContent = 'เข้าสู่ระบบล่าสุด: '+ fmtTH(last); } })();
+
+(function(){ const last = localStorage.getItem(LS_LAST_LOGIN); if(last){ els.lastLoginInfo.textContent = 'เข้าสู่ระบบล่าสุด: '+ fmtTH(last); } els.pinInputs[0]?.focus(); })();
 
 // ===== File/Repo Loaders =====
 function splitCSVLine(line, delim){ const out=[]; let cur=''; let inQ=false; for(let i=0;i<line.length;i++){ const ch=line[i]; if(ch==='"'){ if(inQ && line[i+1]==='"'){ cur+='"'; i++; } else inQ=!inQ; } else if(ch===delim && !inQ){ out.push(cur); cur=''; } else cur+=ch; } out.push(cur); return out.map(s=>s.trim()); }
@@ -263,10 +286,15 @@ els.qrModal.addEventListener('click', e=>{ if(e.target===els.qrModal) closeQR();
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeQR(); });
 
 // ===== Tests =====
-function runTests(){ const out=[]; const ok=(n)=>out.push('✅ '+n); const ng=(n,m)=>out.push('❌ '+n+' → '+m); try{ normalizeDigits('๑๑๒๕๑')==='11251'?ok('thai digits'):ng('thai digits','map failed'); }catch(e){ ng('thai digits',e.message); } try{ const l=splitCSVLine('"a,b",c',','); (l.length===2&&l[0]==='a,b'&&l[1]==='c')?ok('csv quotes'):ng('csv quotes',JSON.stringify(l)); }catch(e){ ng('csv quotes',e.message); } try{ const arr=parseCSV('name,hn\nสมชาย,123',','); (arr[0].name==='สมชาย'&&arr[0].hn==='123')?ok('parse csv'):ng('parse csv',JSON.stringify(arr)); }catch(e){ ng('parse csv',e.message); } els.tests.textContent = out.join('\n'); els.tests.className = out.some(x=>x.startsWith('❌')) ? 'test-fail' : 'test-pass'; }
+function runTests(){ const out=[]; const ok=(n)=>out.push('✅ '+n); const ng=(n,m)=>out.push('❌ '+n+' → '+m);
+  try{ normalizeDigits('๑๑๒๕๑')==='11251'?ok('thai digits'):ng('thai digits','map failed'); }catch(e){ ng('thai digits',e.message); }
+  try{ const l=splitCSVLine('"a,b",c',','); (l.length===2&&l[0]==='a,b'&&l[1]==='c')?ok('csv quotes'):ng('csv quotes',JSON.stringify(l)); }catch(e){ ng('csv quotes',e.message); }
+  try{ const arr=parseCSV('name,hn\nสมชาย,123',','); (arr[0].name==='สมชาย'&&arr[0].hn==='123')?ok('parse csv'):ng('parse csv',JSON.stringify(arr)); }catch(e){ ng('parse csv',e.message); }
+  try{ const pin=['1','1','2','5','1']; const got = normalizeDigits(pin.join('')); (got==='11251')?ok('pin gather'):ng('pin gather',got); }catch(e){ ng('pin gather',e.message); }
+  els.tests.textContent = out.join('\n'); els.tests.className = out.some(x=>x.startsWith('❌')) ? 'test-fail' : 'test-pass'; }
 
 // ===== Init =====
-(function init(){ if(sessionStorage.getItem('rx_gate_ok')==='1' || localStorage.getItem(LS_GATE_PERM)==='1'){ showApp(); } else { els.pass.focus(); const last = localStorage.getItem(LS_LAST_LOGIN); if(last){ els.lastLoginInfo.textContent = 'เข้าสู่ระบบล่าสุด: '+ fmtTH(last); } } loadFromRepo(); runTests(); })();
+(function init(){ if(sessionStorage.getItem('rx_gate_ok')==='1' || localStorage.getItem(LS_GATE_PERM)==='1'){ showApp(); } else { els.pinInputs[0]?.focus(); const last = localStorage.getItem(LS_LAST_LOGIN); if(last){ els.lastLoginInfo.textContent = 'เข้าสู่ระบบล่าสุด: '+ fmtTH(last); } } loadFromRepo(); runTests(); })();
 </script>
 </body>
 </html>
