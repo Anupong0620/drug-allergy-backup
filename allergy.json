@@ -1,0 +1,16 @@
+[
+  {
+    "name": "สมชาย ใจดี",
+    "hn": "123456",
+    "agent": "amoxicillin",
+    "symptom": "ผื่นคัน",
+    "report_date": "2025-08-14"
+  },
+  {
+    "name": "สมศรี กล้าหาญ",
+    "hn": "987654",
+    "agent": "aspirin",
+    "symptom": "หอบหืดกำเริบ",
+    "report_date": "2025-07-30"
+  }
+]
