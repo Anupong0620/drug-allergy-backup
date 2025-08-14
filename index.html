@@ -6,132 +6,203 @@
   <title>ตรวจสอบประวัติแพ้ยา (ใส่รหัสก่อนเข้า)</title>
   <style>
     body { font-family: system-ui, sans-serif; background: #0b1220; color: #fff; margin: 0; padding: 20px; }
-    .container { max-width: 900px; margin: auto; display: none; }
-    input, button { padding: 10px; margin: 5px 0; border-radius: 6px; border: none; }
+    .container { max-width: 980px; margin: auto; display: none; }
+    input, button { padding: 10px; margin: 5px 0; border-radius: 8px; border: 1px solid #223; background:#0d1628; color:#e5e7eb }
+    button { cursor: pointer }
+    .toolbar { display:flex; gap:10px; align-items:center; flex-wrap:wrap }
+    .toolbar .grow{ flex: 1 1 280px }
     table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    th, td { padding: 8px; border-bottom: 1px solid #333; }
-    th { background: #111; position: sticky; top: 0; }
-    tr:hover { background: #222; }
-    .upload-info { margin-top: 8px; font-size: 0.9em; color: #bbb; }
+    th, td { padding: 10px; border-bottom: 1px solid #333; }
+    th { background: #0f172a; position: sticky; top: 0; text-align:left }
+    tr:hover { background: #111827; }
+    .meta { margin-top: 8px; font-size: 12px; color: #9aa4b2; display:flex; gap:16px; flex-wrap:wrap }
     #login { text-align: center; padding-top: 50px; }
+    .badge{background:#0b1120;border:1px solid #233;padding:2px 8px;border-radius:999px}
+    details.tests{margin:12px 0}
+    details.tests summary{cursor:pointer}
+    .test-pass{color:#16a34a}
+    .test-fail{color:#ef4444}
   </style>
 </head>
 <body>
 <div id="login">
   <h2>กรุณาใส่รหัสเพื่อเข้าใช้งาน</h2>
-  <input type="password" id="passcode" placeholder="รหัสผ่าน">
+  <input type="password" id="passcode" placeholder="รหัสผ่าน" autofocus>
   <br>
-  <button id="loginBtn">เข้าสู่ระบบ</button>
+  <button id="loginBtn" type="button">เข้าสู่ระบบ</button>
   <div id="loginMsg" style="color:#f88;margin-top:10px;"></div>
 </div>
 
 <div class="container" id="app">
   <h1>ตรวจสอบประวัติแพ้ยา</h1>
-  <input type="text" id="q" placeholder="ค้นหาชื่อหรือ HN">
-  <br>
-  <input type="file" id="fileInput" accept=".csv,.json,.xls,.xlsx">
-  <div id="fileMeta" style="font-size:12px;color:#9aa4b2;margin-top:4px">อัปโหลดล่าสุด: <span id="lastUpload">—</span> <span id="fileNameWrap" style="margin-left:8px">ไฟล์: <span id="fileName">—</span></span></div>
-  <div class="upload-info" id="uploadInfo">ยังไม่เคยอัปโหลดไฟล์</div>
+  <div class="toolbar">
+    <input class="grow" type="text" id="q" placeholder="ค้นหาชื่อหรือ HN">
+    <input type="file" id="fileInput" accept=".csv,.tsv,.txt,.json,.xls,.xlsx">
+    <button id="btnExport" title="บันทึกข้อมูลที่กำลังแสดงเป็นไฟล์ JSON">บันทึก JSON</button>
+  </div>
+  <div class="meta">
+    <div>แหล่งข้อมูล: <span id="source">—</span></div>
+    <div>อัปเดตล่าสุด: <span id="lastUpload">—</span></div>
+    <div>ไฟล์: <span id="fileName">—</span></div>
+    <div>รายการ: <span id="rowCount" class="badge">0</span></div>
+  </div>
+
   <table>
     <thead>
       <tr><th>ชื่อ</th><th>HN</th><th>ยา</th><th>อาการ</th><th>วันที่รายงาน</th></tr>
     </thead>
     <tbody id="rows"></tbody>
   </table>
+
+  <details class="tests">
+    <summary>Dev: run built‑in tests</summary>
+    <pre id="testResults" style="white-space:pre-wrap;color:#9aa4b2">ยังไม่ได้รัน</pre>
+  </details>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <script>
-const PASSCODE = "11251"; // รหัสที่ต้องใส่ก่อนเข้าใช้งาน
+// ===== Config =====
+const PASSCODE = "11251"; // รหัสก่อนเข้าใช้
 
-// ระบบล็อกอินง่ายๆ
-const loginDiv = document.getElementById('login');
-const appDiv = document.getElementById('app');
-const loginBtn = document.getElementById('loginBtn');
-const passcodeInput = document.getElementById('passcode');
-const loginMsg = document.getElementById('loginMsg');
+// ===== Elements =====
+const els = {
+  login: document.getElementById('login'),
+  app: document.getElementById('app'),
+  pass: document.getElementById('passcode'),
+  btnLogin: document.getElementById('loginBtn'),
+  msg: document.getElementById('loginMsg'),
+  q: document.getElementById('q'),
+  rows: document.getElementById('rows'),
+  file: document.getElementById('fileInput'),
+  btnExport: document.getElementById('btnExport'),
+  lastUpload: document.getElementById('lastUpload'),
+  fileName: document.getElementById('fileName'),
+  rowCount: document.getElementById('rowCount'),
+  source: document.getElementById('source'),
+  tests: document.getElementById('testResults'),
+};
 
-loginBtn.addEventListener('click', () => {
-  if (passcodeInput.value === PASSCODE) {
-    loginDiv.style.display = 'none';
-    appDiv.style.display = 'block';
-  } else {
-    loginMsg.textContent = 'รหัสไม่ถูกต้อง';
-  }
-});
-
+// ===== State & Cache =====
 let DATA = [];
-const q = document.getElementById('q');
-const rows = document.getElementById('rows');
-const lastUploadEl = document.getElementById('lastUpload');
-const fileNameEl = document.getElementById('fileName');
-const uploadInfo = document.getElementById('uploadInfo');
+const LS_DATA = 'rx_allergy_data_v1';
+const LS_UPDATED = 'rx_allergy_updated_v1';
+const LS_NAME = 'rx_allergy_filename_v1';
+const LS_SOURCE = 'rx_allergy_source_v1';
 
-const LS_TS_KEY = 'rx_last_upload_ts';
-const LS_NAME_KEY = 'rx_last_upload_name';
-
-function fmtThai(dtIso){
-  try { return new Date(dtIso).toLocaleString('th-TH'); } catch(e){ return '—'; }
+function fmtTH(iso){ try{ return new Date(iso).toLocaleString('th-TH'); }catch{ return '—'; } }
+function setMeta({updated,name,source}){
+  if(updated){ localStorage.setItem(LS_UPDATED, updated); }
+  if(name){ localStorage.setItem(LS_NAME, name); }
+  if(source){ localStorage.setItem(LS_SOURCE, source); }
+  els.lastUpload.textContent = fmtTH(localStorage.getItem(LS_UPDATED) || updated || '');
+  els.fileName.textContent = localStorage.getItem(LS_NAME) || name || '—';
+  els.source.textContent = localStorage.getItem(LS_SOURCE) || source || '—';
 }
-function updateFileMeta(ts, name){
-  if (ts) localStorage.setItem(LS_TS_KEY, ts);
-  if (name) localStorage.setItem(LS_NAME_KEY, name);
-  const tsVal = ts || localStorage.getItem(LS_TS_KEY);
-  const nameVal = name || localStorage.getItem(LS_NAME_KEY);
-  if (lastUploadEl) lastUploadEl.textContent = tsVal ? fmtThai(tsVal) : '—';
-  if (fileNameEl) fileNameEl.textContent = nameVal || '—';
+function saveCache(){ localStorage.setItem(LS_DATA, JSON.stringify(DATA)); setMeta({updated:new Date().toISOString()}); }
+function loadCache(){ try{ const raw=localStorage.getItem(LS_DATA); if(raw){ DATA = JSON.parse(raw)||[]; } }catch{} setMeta({}); render(DATA); }
+
+// ===== Auth (with Thai digits support) =====
+function normalizeDigits(s){ if(!s) return ''; const map={'๐':'0','๑':'1','๒':'2','๓':'3','๔':'4','๕':'5','๖':'6','๗':'7','๘':'8','๙':'9'}; return s.replace(/[๐-๙]/g,ch=>map[ch]||ch); }
+function tryLogin(){
+  const code = normalizeDigits((els.pass.value||'').trim());
+  if(code===PASSCODE){ sessionStorage.setItem('rx_gate_ok','1'); els.login.style.display='none'; els.app.style.display='block'; }
+  else { els.msg.textContent='รหัสไม่ถูกต้อง'; els.pass.focus(); }
 }
-updateFileMeta();
+els.btnLogin.addEventListener('click', tryLogin);
+els.pass.addEventListener('keydown', e=>{ if(e.key==='Enter') tryLogin(); });
 
-document.getElementById('fileInput').addEventListener('change', function(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  const ext = file.name.split('.').pop().toLowerCase();
-  const uploadDate = new Date().toLocaleString('th-TH');
-  uploadInfo.textContent = `อัปโหลดล่าสุด: ${file.name} (${uploadDate})`;
-
-  reader.onload = function(ev) {
-    if (ext === 'csv' || ext === 'json') {
-      if (ext === 'csv') {
-        const text = ev.target.result;
-        const [header, ...lines] = text.split(/\r?\n/);
-        const headers = header.split(',');
-        DATA = lines.map(line => {
-          const cols = line.split(',');
-          let obj = {};
-          headers.forEach((h, i) => obj[h.trim()] = cols[i]);
-          return obj;
-        });
-      } else {
-        DATA = JSON.parse(ev.target.result);
-      }
-    } else if (ext === 'xls' || ext === 'xlsx') {
-      const wb = XLSX.read(ev.target.result, { type: 'binary' });
-      const wsname = wb.SheetNames[0];
-      const ws = wb.Sheets[wsname];
-      DATA = XLSX.utils.sheet_to_json(ws);
-    }
-    render(DATA);
-    updateFileMeta(new Date().toISOString(), file.name);
+// ===== CSV/TSV parse (quotes aware) =====
+function splitCSVLine(line, delim){
+  const out=[]; let cur=''; let inQ=false; for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(ch==='"'){ if(inQ && line[i+1]==='"'){ cur+='"'; i++; } else inQ=!inQ; }
+    else if(ch===delim && !inQ){ out.push(cur); cur=''; }
+    else cur+=ch;
+  } out.push(cur); return out.map(s=>s.trim());
+}
+function parseCSV(text, delim=','){
+  const lines = text.replace(/\r\n?/g,'\n').split('\n');
+  if(!lines.length) return [];
+  const headers = splitCSVLine(lines.shift()||'', delim);
+  const out=[]; for(const line of lines){ if(!line.trim()) continue; const vals=splitCSVLine(line, delim); const o={}; headers.forEach((h,i)=>o[h]=vals[i]??''); out.push(o); }
+  return out;
+}
+function normalizeRow(obj){
+  const m={}; for(const k of Object.keys(obj||{})){ m[k.trim().toLowerCase()]=obj[k]; }
+  return {
+    name: m['name'] ?? m['ชื่อ'] ?? '',
+    hn: String(m['hn'] ?? m['h.n'] ?? m['รหัส'] ?? '').trim(),
+    agent: m['agent'] ?? m['ยา'] ?? m['ยาที่แพ้'] ?? '',
+    symptom: m['symptom'] ?? m['อาการ'] ?? '',
+    report_date: m['report_date'] ?? m['date'] ?? m['วันที่'] ?? '',
   };
-
-  if (ext === 'xls' || ext === 'xlsx') reader.readAsBinaryString(file);
-  else reader.readAsText(file);
-});
-
-q.addEventListener('input', () => {
-  const val = q.value.toLowerCase();
-  const filtered = DATA.filter(r =>
-    (r.name || r.ชื่อ || '').toString().toLowerCase().includes(val) ||
-    (r.hn || '').toString().toLowerCase().includes(val)
-  );
-  render(filtered);
-});
-
-function render(data) {
-  rows.innerHTML = data.map(r => `<tr><td>${r.name || r.ชื่อ || ''}</td><td>${r.hn || ''}</td><td>${r.agent || r.ยา || ''}</td><td>${r.symptom || r.อาการ || ''}</td><td>${r.report_date || r.วันที่ || ''}</td></tr>`).join('');
 }
+
+// ===== Loaders =====
+async function readTextSmart(file){
+  const buf = await file.arrayBuffer();
+  try{ return new TextDecoder('utf-8',{fatal:true}).decode(new Uint8Array(buf)); }catch{}
+  try{ return new TextDecoder('windows-874').decode(new Uint8Array(buf)); }catch{}
+  return new TextDecoder().decode(new Uint8Array(buf));
+}
+async function handleFile(file){
+  const name=file.name; const ext=name.split('.').pop().toLowerCase();
+  try{
+    if(ext==='json'){
+      const txt = await readTextSmart(file); const arr = JSON.parse(txt); DATA=(Array.isArray(arr)?arr:[]).map(normalizeRow);
+    } else if(ext==='csv' || ext==='tsv' || ext==='txt'){
+      const txt = await readTextSmart(file); const delim=(ext==='tsv'||txt.includes('\t'))?'\t':','; DATA=parseCSV(txt,delim).map(normalizeRow);
+    } else if(ext==='xls' || ext==='xlsx'){
+      const wb = await new Promise((resolve,reject)=>{ const r=new FileReader(); r.onload=e=>{ try{ resolve(XLSX.read(e.target.result,{type:'binary'})); }catch(err){ reject(err); } }; r.onerror=reject; r.readAsBinaryString(file); });
+      const ws = wb.Sheets[wb.SheetNames[0]]; DATA = XLSX.utils.sheet_to_json(ws).map(normalizeRow);
+    } else { alert('ชนิดไฟล์ไม่รองรับ'); return; }
+    render(DATA); setMeta({updated:new Date().toISOString(), name, source:'อัปโหลดไฟล์'}); saveCache();
+  }catch(err){ console.error(err); alert('อ่านไฟล์ไม่สำเร็จ'); }
+}
+els.file.addEventListener('change',e=>{ const f=e.target.files?.[0]; if(f) handleFile(f); e.target.value=''; });
+
+async function loadFromRepo(){
+  try{ const r=await fetch('./allergy.json',{cache:'no-store'}); if(!r.ok) throw 0; const arr=await r.json(); DATA=(Array.isArray(arr)?arr:[]).map(normalizeRow); render(DATA); setMeta({updated:new Date().toISOString(), name:'allergy.json', source:'repo'}); saveCache(); return; }catch{}
+  try{ const ym=new Date().toISOString().slice(0,7); const r2=await fetch(`./archive/allergy-${ym}.json`,{cache:'no-store'}); if(!r2.ok) throw 0; const arr2=await r2.json(); DATA=(Array.isArray(arr2)?arr2:[]).map(normalizeRow); render(DATA); setMeta({updated:new Date().toISOString(), name:`archive/allergy-${ym}.json`, source:'repo'}); saveCache(); return; }catch{}
+  // fall back to cache if any
+  if(!DATA.length){ loadCache(); }
+}
+
+// ===== Render & Search =====
+function fmtDate(d){ if(!d) return '—'; try{ const dt=new Date(d); if(!isNaN(dt)) return dt.toLocaleDateString('th-TH'); }catch{} return String(d); }
+function render(arr){
+  els.rows.innerHTML = (arr||[]).map(r=>`<tr><td>${escapeHtml(r.name||'')}</td><td>${escapeHtml(r.hn||'')}</td><td>${escapeHtml(r.agent||'')}</td><td>${escapeHtml(r.symptom||'')}</td><td>${escapeHtml(fmtDate(r.report_date))}</td></tr>`).join('');
+  els.rowCount.textContent = String((arr||[]).length);
+}
+function escapeHtml(s){ return String(s??'').replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
+function onSearch(){
+  const v=(els.q.value||'').trim().toLowerCase(); if(!v){ render(DATA); return; }
+  const isNum=/^\d+$/.test(v); const out=DATA.filter(r=> isNum ? String(r.hn||'').toLowerCase().includes(v) : String(r.name||'').toLowerCase().includes(v));
+  render(out);
+}
+els.q.addEventListener('input',()=>{ clearTimeout(window._t); window._t=setTimeout(onSearch,120); });
+
+// ===== Export =====
+function exportJSON(){ if(!Array.isArray(DATA)||DATA.length===0){ alert('ยังไม่มีข้อมูลให้บันทึก'); return; } const pretty=JSON.stringify(DATA,null,2); const blob=new Blob([pretty],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); const ts=new Date().toISOString().replace(/[:T]/g,'-').split('.')[0]; a.href=url; a.download=`allergy-${ts}.json`; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); },0); }
+els.btnExport.addEventListener('click', exportJSON);
+
+// ===== Tests =====
+function runTests(){
+  const out=[]; const ok=(n)=>out.push('✅ '+n); const ng=(n,m)=>out.push('❌ '+n+' → '+m);
+  try{ normalizeDigits('๑๑๒๕๑')==='11251'?ok('thai digits'):ng('thai digits','map failed'); }catch(e){ ng('thai digits',e.message); }
+  try{ const l=splitCSVLine('"a,b",c',','); (l.length===2&&l[0]==='a,b'&&l[1]==='c')?ok('csv quotes'):ng('csv quotes',JSON.stringify(l)); }catch(e){ ng('csv quotes',e.message); }
+  try{ const arr=parseCSV('name,hn\nสมชาย,123',','); (arr[0].name==='สมชาย'&&arr[0].hn==='123')?ok('parse csv'):ng('parse csv',JSON.stringify(arr)); }catch(e){ ng('parse csv',e.message); }
+  els.tests.textContent = out.join('\n'); els.tests.className = out.some(x=>x.startsWith('❌')) ? 'test-fail' : 'test-pass';
+}
+
+// ===== Init =====
+(function init(){
+  if(sessionStorage.getItem('rx_gate_ok')==='1'){ els.login.style.display='none'; els.app.style.display='block'; }
+  else { els.pass.focus(); }
+  loadFromRepo();
+  runTests();
+})();
 </script>
 </body>
 </html>
