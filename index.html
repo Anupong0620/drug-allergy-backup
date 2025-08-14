@@ -19,12 +19,10 @@
     tr:hover { background: #111827; }
     .meta { margin-top: 8px; font-size: 12px; color: var(--muted); display:flex; gap:16px; flex-wrap:wrap; align-items:center }
     .badge{background:#0b1120;border:1px solid #233;padding:2px 8px;border-radius:999px}
-    .credit{font-size:12px;color:var(--muted);margin-top:12px}
-    .center{text-align:center}
 
     /* --- LOGIN --- */
     .login-wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:10}
-    .login-card{width:min(460px,92vw);background:linear-gradient(180deg,#0f172a,#0b1323);border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 50px rgba(0,0,0,.45);border-radius:18px;padding:22px}
+    .login-card{width:min(380px,92vw);background:linear-gradient(180deg,#0f172a,#0b1323);border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 50px rgba(0,0,0,.45);border-radius:18px;padding:22px}
     .brand{display:flex;align-items:center;gap:12px;margin-bottom:8px}
     .logo{width:42px;height:42px;border-radius:12px;background:conic-gradient(from 210deg, #22d3ee, #8b5cf6);display:grid;place-items:center;color:#021024;font-weight:800}
     .logo-img{width:42px;height:42px;border-radius:12px;object-fit:contain;background:#0b1220;border:1px solid rgba(255,255,255,.08)}
@@ -44,6 +42,17 @@
     /* brand in app header */
     .brand-app{display:flex;align-items:center;gap:10px}
     .logo-img.small{width:28px;height:28px;border-radius:8px}
+
+    /* --- QR Modal --- */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,.75);z-index:100}
+    .modal.show{display:flex}
+    .modal-card{background:#0b1220;border:1px solid rgba(255,255,255,.12);border-radius:14px;box-shadow:0 16px 40px rgba(0,0,0,.45);padding:16px;width:min(340px,92vw);text-align:center}
+    .modal-card img{width:240px;height:240px}
+    .modal-actions{display:flex;gap:8px;justify-content:center;margin-top:8px}
+    .smalllink{font-size:12px;color:var(--muted);word-break:break-all;margin-top:6px}
+    .btn-ghost{background:transparent;border-color:transparent;color:#cbd5e1}
+    .credit{font-size:12px;color:var(--muted);margin-top:12px}
+    .center{text-align:center}
   </style>
 </head>
 <body>
@@ -51,11 +60,8 @@
 <div id="login" class="login-wrap">
   <div class="login-card" id="loginCard">
     <div class="brand">
-      <!-- Image logo (hidden by default until configured) -->
-      <img id="brandLogo" class="logo-img" alt="Hospital logo" style="display:none"/>
-      <!-- Fallback badge -->
-      <div id="logoFallback" class="logo">RX</div>
-      <div class="title" id="brandTitle">เข้าสู่ระบบ</div>
+      <img id="brandLogo" class="logo-img" alt="Hospital logo"/>
+      <div class="title" id="brandTitle">โรงพยาบาลชาติตระการ • เข้าสู่ระบบ</div>
     </div>
     <div class="sub">ป้อนรหัส 5 หลักที่ได้รับจากผู้ดูแล เพื่อเข้าใช้งานเครื่องมือตรวจสอบประวัติแพ้ยา</div>
 
@@ -67,7 +73,10 @@
     </div>
     <div class="actions">
       <label class="remember"><input type="checkbox" id="rememberMe"> จำอุปกรณ์นี้</label>
-      <button id="loginBtn" type="button" class="btn-primary">เข้าสู่ระบบ</button>
+      <div style="display:flex;gap:6px;align-items:center">
+        <button id="btnQRLogin" type="button" class="btn-ghost" title="แชร์ลิงก์หน้านี้เป็น QR">QR</button>
+        <button id="loginBtn" type="button" class="btn-primary">เข้าสู่ระบบ</button>
+      </div>
     </div>
     <div id="loginMsg" class="err"></div>
     <div class="hint">กด Enter เพื่อยืนยัน • อุปกรณ์สาธารณะ: ไม่ควรติ๊ก "จำอุปกรณ์นี้"</div>
@@ -79,14 +88,15 @@
 <!-- APP -->
 <div class="container" id="app">
   <div class="brand-app" style="margin-bottom:6px">
-    <img id="brandLogoApp" class="logo-img small" alt="Hospital logo" style="display:none"/>
-    <h1 id="appTitle" style="margin:0">ตรวจสอบประวัติแพ้ยา</h1>
+    <img id="brandLogoApp" class="logo-img small" alt="Hospital logo"/>
+    <h1 id="appTitle" style="margin:0">โรงพยาบาลชาติตระการ • ตรวจสอบประวัติแพ้ยา</h1>
   </div>
   <div class="toolbar">
     <input class="grow" type="text" id="q" placeholder="ค้นหาชื่อหรือ HN">
     <input type="file" id="fileInput" accept=".csv,.tsv,.txt,.json,.xls,.xlsx">
     <button id="btnExport" title="บันทึกข้อมูลที่กำลังแสดงเป็นไฟล์ JSON">บันทึก JSON</button>
     <button id="btnLogout" title="ออกจากระบบ">ออกจากระบบ</button>
+    <button id="btnQRApp" class="btn-ghost" title="แชร์ลิงก์หน้านี้เป็น QR">QR</button>
   </div>
   <div class="meta">
     <div>แหล่งข้อมูล: <span id="source">—</span></div>
@@ -109,17 +119,29 @@
   <div class="credit center">จัดทำโดย <b>ฝ่ายเภสัชกรรมและคุ้มครองผู้บริโภค โรงพยาบาลชาติตระการ</b></div>
 </div>
 
+<!-- QR Modal -->
+<div id="qrModal" class="modal" role="dialog" aria-modal="true" aria-label="QR code">
+  <div class="modal-card">
+    <div style="font-weight:600;margin-bottom:6px">QR สำหรับหน้านี้</div>
+    <img id="qrImage" alt="QR code"/>
+    <div id="qrUrlTxt" class="smalllink"></div>
+    <div class="modal-actions">
+      <button id="btnCopyUrl" type="button">คัดลอกลิงก์</button>
+      <button id="btnCloseQR" type="button">ปิด</button>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <script>
 // ===== Config =====
 const PASSCODE = "11251";       // รหัสก่อนเข้าใช้
 const MAX_TRIES = 5;             // ใส่ผิดได้กี่ครั้ง
-const LOCK_MS   = 15000;         // ล็อกกี่มิลลิวินาทีเมื่อผิดครบ
-// >>> ตั้งค่ารูปโลโก้และชื่อ รพ. ที่นี่ <<<
+const LOCK_MS   = 15000;         // ล็อกชั่วคราวกี่มิลลิวินาทีเมื่อใส่ผิดครบ
 const BRAND = {
-  name: 'โรงพยาบาลชาติตระการ',           // ชื่อโรงพยาบาล
-  logoSrc: './logo.png',                   // ไฟล์โลโก้อยู่ที่ root
-  showOnAppHeader: true                    // แสดงโลโก้/ชื่อบนหัวแอป
+  name: 'โรงพยาบาลชาติตระการ',
+  logoSrc: './logo.png',
+  showOnAppHeader: true
 };
 
 // ===== Elements =====
@@ -134,7 +156,6 @@ const els = {
   remember: document.getElementById('rememberMe'),
   lastLoginInfo: document.getElementById('lastLoginInfo'),
   brandLogo: document.getElementById('brandLogo'),
-  logoFallback: document.getElementById('logoFallback'),
   brandTitle: document.getElementById('brandTitle'),
 
   app: document.getElementById('app'),
@@ -150,23 +171,26 @@ const els = {
   rowCount: document.getElementById('rowCount'),
   source: document.getElementById('source'),
   tests: document.getElementById('testResults'),
+  // QR
+  btnQRLogin: document.getElementById('btnQRLogin'),
+  btnQRApp: document.getElementById('btnQRApp'),
+  qrModal: document.getElementById('qrModal'),
+  qrImage: document.getElementById('qrImage'),
+  qrUrlTxt: document.getElementById('qrUrlTxt'),
+  btnCopyUrl: document.getElementById('btnCopyUrl'),
+  btnCloseQR: document.getElementById('btnCloseQR'),
 };
 
 // ===== Brand setup =====
 (function setupBrand(){
   try {
+    if (BRAND && BRAND.logoSrc) {
+      els.brandLogo.src = BRAND.logoSrc; els.brandLogoApp.src = BRAND.logoSrc;
+      els.brandLogoApp.style.display = 'block';
+    }
     if (BRAND && BRAND.name) {
       els.brandTitle.textContent = BRAND.name + ' • เข้าสู่ระบบ';
-      if (BRAND.showOnAppHeader) {
-        els.appTitle.textContent = (BRAND.name + ' • ตรวจสอบประวัติแพ้ยา');
-      }
-    }
-    if (BRAND && BRAND.logoSrc) {
-      els.brandLogo.src = BRAND.logoSrc; els.brandLogo.style.display = 'block';
-      els.logoFallback.style.display = 'none';
-      if (BRAND.showOnAppHeader) {
-        els.brandLogoApp.src = BRAND.logoSrc; els.brandLogoApp.style.display = 'block';
-      }
+      els.appTitle.textContent = BRAND.name + ' • ตรวจสอบประวัติแพ้ยา';
     }
   } catch {}
 })();
@@ -226,6 +250,17 @@ els.q.addEventListener('input',()=>{ clearTimeout(window._t); window._t=setTimeo
 function exportJSON(){ if(!Array.isArray(DATA)||DATA.length===0){ alert('ยังไม่มีข้อมูลให้บันทึก'); return; } const pretty=JSON.stringify(DATA,null,2); const blob=new Blob([pretty],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); const ts=new Date().toISOString().replace(/[:T]/g,'-').split('.')[0]; a.href=url; a.download=`allergy-${ts}.json`; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); },0); }
 els.btnExport.addEventListener('click', exportJSON);
 els.btnLogout.addEventListener('click', ()=>{ sessionStorage.removeItem('rx_gate_ok'); localStorage.removeItem(LS_GATE_PERM); location.reload(); });
+
+// ===== QR =====
+function pageURL(){ const u=new URL(location.href); u.search=''; u.hash=''; return u.toString(); }
+function openQR(){ const url=pageURL(); els.qrImage.src=`https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(url)}`; els.qrUrlTxt.textContent=url; els.qrModal.classList.add('show'); }
+function closeQR(){ els.qrModal.classList.remove('show'); }
+els.btnQRLogin?.addEventListener('click', openQR);
+els.btnQRApp?.addEventListener('click', openQR);
+els.btnCloseQR.addEventListener('click', closeQR);
+els.btnCopyUrl.addEventListener('click', async ()=>{ try{ await navigator.clipboard.writeText(els.qrUrlTxt.textContent||''); alert('คัดลอกลิงก์แล้ว'); }catch{ alert('คัดลอกไม่สำเร็จ'); } });
+els.qrModal.addEventListener('click', e=>{ if(e.target===els.qrModal) closeQR(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeQR(); });
 
 // ===== Tests =====
 function runTests(){ const out=[]; const ok=(n)=>out.push('✅ '+n); const ng=(n,m)=>out.push('❌ '+n+' → '+m); try{ normalizeDigits('๑๑๒๕๑')==='11251'?ok('thai digits'):ng('thai digits','map failed'); }catch(e){ ng('thai digits',e.message); } try{ const l=splitCSVLine('"a,b",c',','); (l.length===2&&l[0]==='a,b'&&l[1]==='c')?ok('csv quotes'):ng('csv quotes',JSON.stringify(l)); }catch(e){ ng('csv quotes',e.message); } try{ const arr=parseCSV('name,hn\nสมชาย,123',','); (arr[0].name==='สมชาย'&&arr[0].hn==='123')?ok('parse csv'):ng('parse csv',JSON.stringify(arr)); }catch(e){ ng('parse csv',e.message); } els.tests.textContent = out.join('\n'); els.tests.className = out.some(x=>x.startsWith('❌')) ? 'test-fail' : 'test-pass'; }
