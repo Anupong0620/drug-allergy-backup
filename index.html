@@ -253,12 +253,101 @@ els.btnLogin.addEventListener('click', tryLogin);
 (function(){ const last = localStorage.getItem(LS_LAST_LOGIN); if(last){ els.lastLoginInfo.textContent = 'เข้าสู่ระบบล่าสุด: '+ fmtTH(last); } els.pinInputs[0]?.focus(); })();
 
 // ===== File/Repo Loaders =====
-function splitCSVLine(line, delim){ const out=[]; let cur=''; let inQ=false; for(let i=0;i<line.length;i++){ const ch=line[i]; if(ch==='"'){ if(inQ && line[i+1]==='"'){ cur+='"'; i++; } else inQ=!inQ; } else if(ch===delim && !inQ){ out.push(cur); cur=''; } else cur+=ch; } out.push(cur); return out.map(s=>s.trim()); }
-function parseCSV(text, delim=','){ const lines = text.replace(/\r\n?/g,'\n').split('\n'); if(!lines.length) return []; const headers = splitCSVLine(lines.shift()||'', delim); const out=[]; for(const line of lines){ if(!line.trim()) continue; const vals = splitCSVLine(line, delim); const o={}; headers.forEach((h,i)=>o[h]=vals[i]??''); out.push(o);} return out; }
-function normalizeRow(obj){ const m={}; for(const k of Object.keys(obj||{})){ m[k.trim().toLowerCase()]=obj[k]; } return { name:m['name']??m['ชื่อ']??'', hn:String(m['hn']??m['h.n']??m['รหัส']??'').trim(), agent:m['agent']??m['ยา']??m['ยาที่แพ้']??'', symptom:m['symptom']??m['อาการ']??'', report_date:m['report_date']??m['date']??m['วันที่']??'', }; }
-async function readTextSmart(file){ const buf=await file.arrayBuffer(); try{ return new TextDecoder('utf-8',{fatal:true}).decode(new Uint8Array(buf)); }catch{} try{ return new TextDecoder('windows-874').decode(new Uint8Array(buf)); }catch{} return new TextDecoder().decode(new Uint8Array(buf)); }
-async function handleFile(file){ const name=file.name; const ext=name.split('.').pop().toLowerCase(); try{ if(ext==='json'){ const txt=await readTextSmart(file); const arr=JSON.parse(txt); DATA=(Array.isArray(arr)?arr:[]).map(normalizeRow); } else if(ext==='csv' || ext==='tsv' || ext==='txt'){ const txt=await readTextSmart(file); const delim=(ext==='tsv'||txt.includes('\t'))?'\t':','; DATA=parseCSV(txt,delim).map(normalizeRow); } else if(ext==='xls' || ext==='xlsx'){ const wb=await new Promise((resolve,reject)=>{ const r=new FileReader(); r.onload=e=>{ try{ resolve(XLSX.read(e.target.result,{type:'binary'})); }catch(err){ reject(err); } }; r.onerror=reject; r.readAsBinaryString(file); }); const ws=wb.Sheets[wb.SheetNames[0]]; DATA=XLSX.utils.sheet_to_json(ws).map(normalizeRow);} else { alert('ชนิดไฟล์ไม่รองรับ'); return; } render(DATA); setMeta({updated:new Date().toISOString(), name, source:'อัปโหลดไฟล์'}); saveCache(); }catch(err){ console.error(err); alert('อ่านไฟล์ไม่สำเร็จ'); } }
-els.file.addEventListener('change',e=>{ const f=e.target.files?.[0]; if(f) handleFile(f); e.target.value=''; });
+function splitCSVLine(line, delim){ 
+  const out=[]; 
+  let cur=''; 
+  let inQ=false; 
+  for(let i=0;i<line.length;i++){ 
+    const ch=line[i]; 
+    if(ch==='"'){ 
+      if(inQ && line[i+1]==='"'){ cur+='"'; i++; } 
+      else inQ=!inQ; 
+    } else if(ch===delim && !inQ){ 
+      out.push(cur); cur=''; 
+    } else cur+=ch; 
+  } 
+  out.push(cur); 
+  return out.map(s=>s.trim()); 
+}
+
+function parseCSV(text, delim=','){ 
+  const lines = text.replace(/\r\n?/g,'\n').split('\n'); 
+  if(!lines.length) return []; 
+  const headers = splitCSVLine(lines.shift()||'', delim); 
+  const out=[]; 
+  for(const line of lines){ 
+    if(!line.trim()) continue; 
+    const vals = splitCSVLine(line, delim); 
+    const o={}; 
+    headers.forEach((h,i)=>o[h]=vals[i]??''); 
+    out.push(o);
+  } 
+  return out; 
+}
+
+function normalizeRow(obj){ 
+  const m={}; 
+  for(const k of Object.keys(obj||{})){ 
+    m[k.trim().toLowerCase()] = obj[k]; 
+  } 
+  return { 
+    name: m['name'] ?? m['ชื่อ'] ?? m['ptname'] ?? m['ชื่อผู้ป่วย'] ?? '',  // ✅ เพิ่ม ptname + ชื่อผู้ป่วย
+    hn: String(m['hn'] ?? m['h.n'] ?? m['รหัส'] ?? '').trim(), 
+    agent: m['agent'] ?? m['ยา'] ?? m['ยาที่แพ้'] ?? '', 
+    symptom: m['symptom'] ?? m['อาการ'] ?? '', 
+    report_date: m['report_date'] ?? m['date'] ?? m['วันที่'] ?? '', 
+  }; 
+}
+
+async function readTextSmart(file){ 
+  const buf=await file.arrayBuffer(); 
+  try{ return new TextDecoder('utf-8',{fatal:true}).decode(new Uint8Array(buf)); }catch{} 
+  try{ return new TextDecoder('windows-874').decode(new Uint8Array(buf)); }catch{} 
+  return new TextDecoder().decode(new Uint8Array(buf)); 
+}
+
+async function handleFile(file){ 
+  const name=file.name; 
+  const ext=name.split('.').pop().toLowerCase(); 
+  try{ 
+    if(ext==='json'){ 
+      const txt=await readTextSmart(file); 
+      const arr=JSON.parse(txt); 
+      DATA=(Array.isArray(arr)?arr:[]).map(normalizeRow); 
+    } else if(ext==='csv' || ext==='tsv' || ext==='txt'){ 
+      const txt=await readTextSmart(file); 
+      const delim=(ext==='tsv'||txt.includes('\t'))?'\t':','; 
+      DATA=parseCSV(txt,delim).map(normalizeRow); 
+    } else if(ext==='xls' || ext==='xlsx'){ 
+      const wb=await new Promise((resolve,reject)=>{ 
+        const r=new FileReader(); 
+        r.onload=e=>{ 
+          try{ resolve(XLSX.read(e.target.result,{type:'binary'})); }catch(err){ reject(err); } 
+        }; 
+        r.onerror=reject; 
+        r.readAsBinaryString(file); 
+      }); 
+      const ws=wb.Sheets[wb.SheetNames[0]]; 
+      DATA=XLSX.utils.sheet_to_json(ws).map(normalizeRow);
+    } else { 
+      alert('ชนิดไฟล์ไม่รองรับ'); 
+      return; 
+    } 
+    render(DATA); 
+    setMeta({updated:new Date().toISOString(), name, source:'อัปโหลดไฟล์'}); 
+    saveCache(); 
+  }catch(err){ 
+    console.error(err); 
+    alert('อ่านไฟล์ไม่สำเร็จ'); 
+  } 
+}
+
+els.file.addEventListener('change',e=>{ 
+  const f=e.target.files?.[0]; 
+  if(f) handleFile(f); 
+  e.target.value=''; 
+});
+
 
 async function loadFromRepo(){ try{ const r=await fetch('./allergy.json',{cache:'no-store'}); if(!r.ok) throw 0; const arr=await r.json(); DATA=(Array.isArray(arr)?arr:[]).map(normalizeRow); render(DATA); setMeta({updated:new Date().toISOString(), name:'allergy.json', source:'repo'}); saveCache(); return; }catch{} try{ const ym=new Date().toISOString().slice(0,7); const r2=await fetch(`./archive/allergy-${ym}.json`,{cache:'no-store'}); if(!r2.ok) throw 0; const arr2=await r2.json(); DATA=(Array.isArray(arr2)?arr2:[]).map(normalizeRow); render(DATA); setMeta({updated:new Date().toISOString(), name:`archive/allergy-${ym}.json`, source:'repo'}); saveCache(); return; }catch{} if(!DATA.length){ loadCache(); } }
 
@@ -298,3 +387,4 @@ function runTests(){ const out=[]; const ok=(n)=>out.push('✅ '+n); const ng=(n
 </script>
 </body>
 </html>
+
