@@ -1316,7 +1316,7 @@
     "report_date": "20/11/2009"
   },
   {
-    "name": "ด.ช.กณวรรธน์  ปั้นบำรุงสุข",
+    "name": "นายกณวรรธน์  ปั้นบำรุงสุข",
     "hn": "000054679",
     "agent": "SALBUTAMOL",
     "symptom": "จุดปื้นแดงที่แขน ขา และลำตัว",
@@ -1820,13 +1820,6 @@
     "report_date": "20/10/2010"
   },
   {
-    "name": "นางลำดวล  สุขะตา",
-    "hn": "000012134",
-    "agent": "HYDROCHLOROTHIAZIDE",
-    "symptom": "เท้าบวม",
-    "report_date": "20/10/2010"
-  },
-  {
     "name": "นายพหล  ศรีอ๊อด",
     "hn": "000023271",
     "agent": "ALLOPURINOL (ติดตามการใช้ยา)",
@@ -1967,7 +1960,7 @@
     "report_date": "23/11/2010"
   },
   {
-    "name": "ด.ช.ธนพล  ธรรมรังสี",
+    "name": "นายธนพล  ธรรมรังสี",
     "hn": "000056302",
     "agent": "ERYTHROMYCIN",
     "symptom": "ปากบวมเป็นแผลหนองและรอยไหม้ มีตุ่มน้ำใสที่ลำตัว",
@@ -3246,13 +3239,6 @@
     "agent": "ALLOPURINOL",
     "symptom": "ผื่นคันแดง ตามลำตัว",
     "report_date": "28/1/2013"
-  },
-  {
-    "name": "นางสุพัตรา  นิวงศา",
-    "hn": "000033764",
-    "agent": "MEFENAMIC ACID",
-    "symptom": "MP rash",
-    "report_date": "5/2/2013"
   },
   {
     "name": "นางจำรอง  ป่าพงษ์",
@@ -4683,7 +4669,7 @@
     "report_date": "2/7/2015"
   },
   {
-    "name": "ด.ช.ธนวัฒน์  ยศสาลี",
+    "name": "นายธนวัฒน์  ยศสาลี",
     "hn": "000060236",
     "agent": "AMOXICILLIN",
     "symptom": "ผื่นตามลำตัว",
@@ -5208,13 +5194,6 @@
     "report_date": "30/11/2015"
   },
   {
-    "name": "นายสิงห์  สอนปัน",
-    "hn": "000047432",
-    "agent": "PARACETAMOL",
-    "symptom": "ผื่นตามลำตัว",
-    "report_date": "8/12/2015"
-  },
-  {
     "name": "นางคำม้วน  ชมเชย",
     "hn": "000012040",
     "agent": "PHENYTOIN",
@@ -5577,6 +5556,13 @@
     "agent": "gabapentin",
     "symptom": "ผื่นแดงรอบเอว สะโพก เวียนศรีษะ n/v",
     "report_date": "23/6/2016"
+  },
+  {
+    "name": "นางปราณี  อ่อนปัสสา",
+    "hn": "000007284",
+    "agent": "AMOXICILLIN",
+    "symptom": "OEDEMA MOUTH",
+    "report_date": "26/6/2016"
   },
   {
     "name": "นายพยุง  บุญมีกุล",
@@ -7098,7 +7084,7 @@
     "report_date": "31/7/2018"
   },
   {
-    "name": "ด.ช.วรนน  จันทะคุณ",
+    "name": "นายวรนน  จันทะคุณ",
     "hn": "000058205",
     "agent": "CEFTRIAXONE",
     "symptom": "Anaphylactic shock",
@@ -8988,7 +8974,7 @@
     "report_date": "15/8/2020"
   },
   {
-    "name": "ด.ช.นันทภัทร  สร้อยดอกไม้",
+    "name": "นายนันทภัทร  สร้อยดอกไม้",
     "hn": "000057879",
     "agent": "CALAMINE",
     "symptom": "ผื่นแดง หลังทายา",
@@ -9338,13 +9324,6 @@
     "report_date": "8/12/2020"
   },
   {
-    "name": "นางธรรม  อุประ",
-    "hn": "000001606",
-    "agent": "TRAMADOL",
-    "symptom": "มีอาการขมปาก ขมคอ กินอาหารไม่ได้",
-    "report_date": "14/12/2020"
-  },
-  {
     "name": "น.ส.วินัดดา  แสงจันทร์",
     "hn": "000001949",
     "agent": "DOXYCYCLINE",
@@ -9653,14 +9632,14 @@
     "report_date": "26/3/2021"
   },
   {
-    "name": "ด.ช.วรนน  จันทะคุณ",
+    "name": "นายวรนน  จันทะคุณ",
     "hn": "000058205",
     "agent": "Omeprazole Inj.",
     "symptom": "แน่นหน้าอก อาเจียน รู้สึกคันตามตัว ไม่เห็นผื่น",
     "report_date": "28/3/2021"
   },
   {
-    "name": "ด.ช.วรนน  จันทะคุณ",
+    "name": "นายวรนน  จันทะคุณ",
     "hn": "000058205",
     "agent": "METOCLOPRAMIDE inj.",
     "symptom": "หลังฉีดยา 5 นาที แน่นหน้าอก อาเจียน รู้สึกคันตามตัว ไม่เห็นผื่น",
@@ -10999,7 +10978,7 @@
   {
     "name": "นายสุรสิทธิ์  คงทอง",
     "hn": "000050241",
-    "agent": "ENALAPRIL",
+    "agent": "ENALAPRIL เป็นอาการข้างเคียง",
     "symptom": "ไอแห้ง",
     "report_date": "6/5/2022"
   },
@@ -11305,20 +11284,6 @@
     "report_date": "6/9/2022"
   },
   {
-    "name": "นางถนอม  เหง้าศรีไพร",
-    "hn": "000001360",
-    "agent": "PARACETAMOL",
-    "symptom": "maculopupura rash",
-    "report_date": "8/9/2022"
-  },
-  {
-    "name": "นางถนอม  เหง้าศรีไพร",
-    "hn": "000001360",
-    "agent": "DIMENHYDRINATE",
-    "symptom": "maculopupur rash, urticaria",
-    "report_date": "8/9/2022"
-  },
-  {
     "name": "นายกฤตพล  บัวยิ้ม",
     "hn": "000063222",
     "agent": "AMPICILLIN",
@@ -11478,6 +11443,13 @@
     "agent": "TRAMADOL capsule",
     "symptom": "วิงเวียน หน้ามืด",
     "report_date": "21/11/2022"
+  },
+  {
+    "name": "นางอิด  ด่านทิม",
+    "hn": "000006094",
+    "agent": "CLINDAMYCIN",
+    "symptom": "หน้าแดง บวม ปากลอก",
+    "report_date": "27/11/2022"
   },
   {
     "name": "นางนิช  อินลาง",
@@ -11917,7 +11889,7 @@
     "name": "นางจำนงค์  ตาสุรินทร์",
     "hn": "000009831",
     "agent": "TRAMADOL",
-    "symptom": "คลื่นไส้ อาเจียน",
+    "symptom": "คลื่นไส้ อาเจียน เฝ้าระวังการใช้ยา",
     "report_date": "19/4/2023"
   },
   {
@@ -11939,13 +11911,6 @@
     "hn": "000022934",
     "agent": "TRAMADOL",
     "symptom": "คลื่นไส้ อาเจียน",
-    "report_date": "21/4/2023"
-  },
-  {
-    "name": "นางเตียน  ช้างน้อย",
-    "hn": "000025161",
-    "agent": "CALCIUM CARBONATE",
-    "symptom": "คันทั้งตัว",
     "report_date": "21/4/2023"
   },
   {
@@ -13699,7 +13664,7 @@
     "report_date": "26/8/2024"
   },
   {
-    "name": "ด.ช.ดรัมภพ  ฉิมมา",
+    "name": "นายดรัมภพ  ฉิมมา",
     "hn": "000056194",
     "agent": "NORFLOXACIN",
     "symptom": "MP rash",
@@ -14413,7 +14378,7 @@
     "report_date": "9/6/2025"
   },
   {
-    "name": "ด.ญ.รุจิรานันท์  บัวยิ้ม",
+    "name": "น.ส.รุจิรานันท์  บัวยิ้ม",
     "hn": "000059126",
     "agent": "AUGMENTIN  TAB(amoxicillin + clavulanic)",
     "symptom": "ผื่นคัน",
@@ -14756,6 +14721,13 @@
     "report_date": "29/9/2025"
   },
   {
+    "name": "นางมินตรา  บุญเมฆ",
+    "hn": "000016043",
+    "agent": "Xenetix (สารทึบแสง)",
+    "symptom": "คันบริเวณ แขน ขา + ตุ่มนูนแดง",
+    "report_date": "1/10/2025"
+  },
+  {
     "name": "นายไว  วุทธา",
     "hn": "000064986",
     "agent": "MEROPENEM",
@@ -14931,13 +14903,6 @@
     "report_date": "15/12/2025"
   },
   {
-    "name": "นางหมาย  สีหะวงษ์",
-    "hn": "000018646",
-    "agent": "tramadol capsule",
-    "symptom": "คลื่นไส้ อาเจียน",
-    "report_date": "19/12/2025"
-  },
-  {
     "name": "นางเรียน  ฟองจางวาง",
     "hn": "000071934",
     "agent": "TRAMADOL",
@@ -15020,5 +14985,642 @@
     "agent": "PENICILLIN",
     "symptom": "ผื่นขึ้นทั้งตัว",
     "report_date": "19/1/2026"
+  },
+  {
+    "name": "ด.ช.ภัทรพงษ์  โทจำปา",
+    "hn": "000074150",
+    "agent": "OSELTAMIVIR",
+    "symptom": "ปากบวมแดง",
+    "report_date": "25/1/2026"
+  },
+  {
+    "name": "นางวิภาวรรณ  ศรีอ๊อด",
+    "hn": "000012109",
+    "agent": "FLUCONAZOLE",
+    "symptom": "ผื่นคันที่แขน ลำคอ คันในรูหู",
+    "report_date": "26/1/2026"
+  },
+  {
+    "name": "นายภาคภูมิ  นวลอยู่",
+    "hn": "000077478",
+    "agent": "IBUPROFEN",
+    "symptom": "ผื่นตามลำตัว หายใจไม่ออก",
+    "report_date": "26/1/2026"
+  },
+  {
+    "name": "นางจรัสศรี  สาริขา",
+    "hn": "000049701",
+    "agent": "AUGMENTIN  TAB เฝ้าระวัง",
+    "symptom": "คลื่นไส้ อาเจียน ท้องเสีย",
+    "report_date": "27/1/2026"
+  },
+  {
+    "name": "น.ส.กนกวรรณ  นิ่มนุช",
+    "hn": "000061703",
+    "agent": "CEFOTAXIME",
+    "symptom": "๊urticaria",
+    "report_date": "28/1/2026"
+  },
+  {
+    "name": "ด.ช.พชร  ขัดทะมาร",
+    "hn": "000067124",
+    "agent": "CALAMINE",
+    "symptom": "urticaria",
+    "report_date": "2/2/2026"
+  },
+  {
+    "name": "ด.ช.พชร  ขัดทะมาร",
+    "hn": "000067124",
+    "agent": "Triamcinolone  lotion",
+    "symptom": "urticaria",
+    "report_date": "2/2/2026"
+  },
+  {
+    "name": "นางบุญเยี่ยม  ศรีอ๊อด",
+    "hn": "000027768",
+    "agent": "CLINDAMYCIN",
+    "symptom": "ผื่นคัน",
+    "report_date": "3/2/2026"
+  },
+  {
+    "name": "นางปัญจนีย์  นิ่มประยงค์",
+    "hn": "000076071",
+    "agent": "PARACETAMOL",
+    "symptom": "ผื่นขึ้นที่หัวไหล่",
+    "report_date": "3/2/2026"
+  },
+  {
+    "name": "นางสมัย  กาญจนจัย",
+    "hn": "000057737",
+    "agent": "LOPERAMIDE",
+    "symptom": "fixed drug eruption",
+    "report_date": "6/2/2026"
+  },
+  {
+    "name": "นางสมัย  กาญจนจัย",
+    "hn": "000057737",
+    "agent": "NORFLOXACIN",
+    "symptom": "fixed drug eruption",
+    "report_date": "6/2/2026"
+  },
+  {
+    "name": "นางสมบัติ  เนตรแสงสี",
+    "hn": "000006468",
+    "agent": "TRAMADOL",
+    "symptom": "เวียนศีรษะ",
+    "report_date": "9/2/2026"
+  },
+  {
+    "name": "นางดาวไว  คำตัน",
+    "hn": "000000442",
+    "agent": "TRAMADOL",
+    "symptom": "คลื่นไส้ อาเจียน รุนแรง",
+    "report_date": "11/2/2026"
+  },
+  {
+    "name": "นางติ๋ม  มณีจันทร์",
+    "hn": "000013510",
+    "agent": "tramadol  injection",
+    "symptom": "ผื่นที่ลำตัว คัน ริมฝีปากหนา ใจสั่น",
+    "report_date": "13/2/2026"
+  },
+  {
+    "name": "นางแหวน  บัวเหม็น",
+    "hn": "000023901",
+    "agent": "DIMENHYDRINATE",
+    "symptom": "Fixed Drug Eruption",
+    "report_date": "14/2/2026"
+  },
+  {
+    "name": "ด.ช.ปรเมศ  มะลิวงษ์",
+    "hn": "000082208",
+    "agent": "CEFOTAXIME",
+    "symptom": "ผื่น MP ตามลำตัว",
+    "report_date": "20/2/2026"
+  },
+  {
+    "name": "นางคำหมุ่ย  เอี่ยมพงดี",
+    "hn": "000005946",
+    "agent": "TRAMADOL",
+    "symptom": "คลื่นไส้  เวียนศีรษะ",
+    "report_date": "4/3/2026"
+  },
+  {
+    "name": "นายเฉลียว  หมีสินลา",
+    "hn": "000080182",
+    "agent": "Augmentin(Amox+Clavulanic)",
+    "symptom": "ผื่นขึ้นบริเวณคอ แขน ลำตัว",
+    "report_date": "4/3/2026"
+  },
+  {
+    "name": "น.ส.ศิริวิมล  อยู่เลิศ",
+    "hn": "000039286",
+    "agent": "TRAMADOL",
+    "symptom": "คลื่นไส้ อาเจียนรุนแรง",
+    "report_date": "5/3/2026"
+  },
+  {
+    "name": "นางวิไลลักษณ์  สีหะวงษ์",
+    "hn": "000002750",
+    "agent": "IBUPROFEN",
+    "symptom": "uticaria มีหน้าบวม แต่ไม่มีหายใจฝึดขัด กินยาแก้แพ้สามารถหายไปได้เอง",
+    "report_date": "7/3/2026"
+  },
+  {
+    "name": "นางวิไลลักษณ์  สีหะวงษ์",
+    "hn": "000002750",
+    "agent": "RIFAMPICIN",
+    "symptom": "ผื่นขึ้นตามมือและเท้า ตาแดง",
+    "report_date": "7/3/2026"
+  },
+  {
+    "name": "นางราตรี  แดงด่อน",
+    "hn": "000018798",
+    "agent": "PENICILLIN",
+    "symptom": "respiratory arrest",
+    "report_date": "11/3/2026"
+  },
+  {
+    "name": "น.ส.จิรภัทร  ภูสิตตา",
+    "hn": "000000683",
+    "agent": "ORPHENADRINE CITRATE +PARACETAMOL",
+    "symptom": "ผื่นคัน",
+    "report_date": "12/3/2026"
+  },
+  {
+    "name": "นางวรรณะ  เพ็งพันธ์",
+    "hn": "000001062",
+    "agent": "gabapentin",
+    "symptom": "คลื่นไส้ วิงเวียน",
+    "report_date": "13/3/2026"
+  },
+  {
+    "name": "นายคุณ  จันทะคุณ",
+    "hn": "000076590",
+    "agent": "PYRAZINAMIDE",
+    "symptom": "ผื่นคัน",
+    "report_date": "14/3/2026"
+  },
+  {
+    "name": "น.ส.หยาดทิพย์  พันธ์ทอง",
+    "hn": "000057482",
+    "agent": "CEFTRIAXONE",
+    "symptom": "มีผื่นเป็นจุดจ้ำเลือดตามร่างกาย บริเวณรูขุมขน",
+    "report_date": "17/3/2026"
+  },
+  {
+    "name": "นายธนพล  วุฒศรีมานันท์",
+    "hn": "000005355",
+    "agent": "IBUPROFEN",
+    "symptom": "ผื่นตามลำตัว คัน",
+    "report_date": "18/3/2026"
+  },
+  {
+    "name": "นางสุภีร์  ราชเพียแก้ว",
+    "hn": "000029062",
+    "agent": "iopamiro",
+    "symptom": "ชาลิ้น คันตามตัว ตุ่มนูนแดงขึ้นเล็กน้อย",
+    "report_date": "21/3/2026"
+  },
+  {
+    "name": "นางณัฐชยา  สิงห์รักษ์",
+    "hn": "000012597",
+    "agent": "TRAMADOL",
+    "symptom": "อาเจียน",
+    "report_date": "23/3/2026"
+  },
+  {
+    "name": "นางเพ็ญ  ราชเพียแก้ว",
+    "hn": "000007425",
+    "agent": "PENICILLIN",
+    "symptom": "คันทั้งตัว ผื่นขึ้น",
+    "report_date": "24/3/2026"
+  },
+  {
+    "name": "นางรัชนก  จันทะคุณ",
+    "hn": "000043831",
+    "agent": "TRAMADOL",
+    "symptom": "เวียนศีรษะ  ใจคอไม่ดี",
+    "report_date": "31/3/2026"
+  },
+  {
+    "name": "นางรัชนก  จันทะคุณ",
+    "hn": "000043831",
+    "agent": "Eperisone",
+    "symptom": "ผื่นคันที่หลัง  คันปาก",
+    "report_date": "31/3/2026"
+  },
+  {
+    "name": "นางรัชนก  จันทะคุณ",
+    "hn": "000043831",
+    "agent": "DICLOFENAC",
+    "symptom": "คันอวัยวะเพศ (ทาน Ibuprofen)",
+    "report_date": "31/3/2026"
+  },
+  {
+    "name": "นางรัชนก  จันทะคุณ",
+    "hn": "000043831",
+    "agent": "Etoricoxib",
+    "symptom": "ริมฝีปาก ร้อน แดง มีอาการคัน",
+    "report_date": "31/3/2026"
+  },
+  {
+    "name": "ส.ต.ต.คชานนท์  แสงเพชร",
+    "hn": "000086374",
+    "agent": "IBUPROFEN",
+    "symptom": "urticaria",
+    "report_date": "31/3/2026"
+  },
+  {
+    "name": "นางแก้ว  จันทะคุณ",
+    "hn": "000015791",
+    "agent": "IBUPROFEN",
+    "symptom": "คันทั้งตัว",
+    "report_date": "8/4/2026"
+  },
+  {
+    "name": "ด.ช.ธนกฤต  จันทะกาว",
+    "hn": "000067824",
+    "agent": "IBUPROFEN",
+    "symptom": "รู้สึกแน่นหน้าอก หายใจไม่ออก",
+    "report_date": "10/4/2026"
+  },
+  {
+    "name": "นางอ้อย (NAN SAING MON)  บุญมา",
+    "hn": "000047315",
+    "agent": "CEFTAZIDIME",
+    "symptom": "ผื่นคันตามร่างกาย",
+    "report_date": "11/4/2026"
+  },
+  {
+    "name": "นางอ้อย (NAN SAING MON)  บุญมา",
+    "hn": "000047315",
+    "agent": "CEFTRIAXONE",
+    "symptom": "ผื่นคันตามร่างกาย",
+    "report_date": "11/4/2026"
+  },
+  {
+    "name": "นางอ้อย (NAN SAING MON)  บุญมา",
+    "hn": "000047315",
+    "agent": "CLINDAMYCIN",
+    "symptom": "ผื่นคันตามร่างกาย",
+    "report_date": "11/4/2026"
+  },
+  {
+    "name": "นายสมนึก  จันทะคุณ",
+    "hn": "000013835",
+    "agent": "CEFTRIAXONE",
+    "symptom": "ผื่นคันลักษณะ erythematous patch บริเวณ ตัว แขน ขาหลังได้รับยา",
+    "report_date": "14/4/2026"
+  },
+  {
+    "name": "นางสวง  มีแก้ว",
+    "hn": "000003243",
+    "agent": "Augmentin(Amox+Clavulanic)",
+    "symptom": "ผื่นคัน ทั่วตัว แขน ขา ใบหน้า",
+    "report_date": "17/4/2026"
+  },
+  {
+    "name": "นางบุญยงค์  มาตี",
+    "hn": "000003567",
+    "agent": "CEFTAZIDIME",
+    "symptom": "ผื่นขึ้นที่ขาทั้งสองข้าง",
+    "report_date": "17/4/2026"
+  },
+  {
+    "name": "นางสวง  มีแก้ว",
+    "hn": "000003243",
+    "agent": "CLINDAMYCIN",
+    "symptom": "maculo pupura rash",
+    "report_date": "19/4/2026"
+  },
+  {
+    "name": "นางสายรุ้ง  ปานมงคล",
+    "hn": "000015859",
+    "agent": "DICLOFENAC",
+    "symptom": "maculopupura rash",
+    "report_date": "20/4/2026"
+  },
+  {
+    "name": "นายตอง  แสงอินทร์",
+    "hn": "000001494",
+    "agent": "Atorvastatin",
+    "symptom": "ผื่นขึ้นทั้งตัว มีอาการคัน",
+    "report_date": "21/4/2026"
+  },
+  {
+    "name": "นางวิภา  จันทะคุณ",
+    "hn": "000014382",
+    "agent": "TRAMADOL",
+    "symptom": "คลื่นไส้ อาเจียน",
+    "report_date": "27/4/2026"
+  },
+  {
+    "name": "นางคำมี  สีบุ",
+    "hn": "000021676",
+    "agent": "DICLOFENAC",
+    "symptom": "หน้าบวม หลังกินยา",
+    "report_date": "30/4/2026"
+  },
+  {
+    "name": "นางแสง  นันตะวงษ์",
+    "hn": "000024604",
+    "agent": "CEFTRIAXONE",
+    "symptom": "MP rash",
+    "report_date": "7/5/2026"
+  },
+  {
+    "name": "นางมวน  บรรจง",
+    "hn": "000027207",
+    "agent": "TRAMADOL",
+    "symptom": "คลื่นไส้ อาเจียนรุนแรง มีผื่นตามตัว",
+    "report_date": "7/5/2026"
+  },
+  {
+    "name": "ด.ช.ณัฐกิตต์  คะลา",
+    "hn": "000085243",
+    "agent": "Amox+Clavulanate",
+    "symptom": "MP rash",
+    "report_date": "7/5/2026"
+  },
+  {
+    "name": "ด.ช.ณัฐกิตต์  คะลา",
+    "hn": "000085243",
+    "agent": "Terramycin Ointment",
+    "symptom": "MP rash",
+    "report_date": "7/5/2026"
+  },
+  {
+    "name": "นายสาคร  ใสบุตรดี",
+    "hn": "000000547",
+    "agent": "CO-TRIMOXAZOLE",
+    "symptom": "pancytopenia",
+    "report_date": "10/5/2026"
+  },
+  {
+    "name": "น.ส.สายรุ่ง  สีหะวงษ์",
+    "hn": "000046249",
+    "agent": "DICLOFENAC",
+    "symptom": "บวม  ผื่น",
+    "report_date": "11/5/2026"
+  },
+  {
+    "name": "นายสาร  หมื่นราช",
+    "hn": "000062615",
+    "agent": "IOPROMIDE",
+    "symptom": "MP rash",
+    "report_date": "15/5/2026"
+  },
+  {
+    "name": "นายสีไพร  สีหะวงษ์",
+    "hn": "000008376",
+    "agent": "PIROXICAM",
+    "symptom": "fixed drug eruption",
+    "report_date": "27/5/2026"
+  },
+  {
+    "name": "น.ส.ลลิดา  แซ่เถา",
+    "hn": "000073798",
+    "agent": "CEFTRIAXONE",
+    "symptom": "ผื่นคันทั่วตัว",
+    "report_date": "29/5/2026"
+  },
+  {
+    "name": "นางเหวียน  สุขตา",
+    "hn": "000001353",
+    "agent": "DICLOFENAC",
+    "symptom": "ผื่นแดงคัน ทั้งตัว และ ใจสั่น",
+    "report_date": "31/5/2026"
+  },
+  {
+    "name": "นางซ้อน  จันทร์แสง",
+    "hn": "000043098",
+    "agent": "gabapentin",
+    "symptom": "ริมฝีปากล่าง บวม ชา มีแผล",
+    "report_date": "6/6/2026"
+  },
+  {
+    "name": "นายหนอย  สีสะอ่อน",
+    "hn": "000070210",
+    "agent": "IOPROMIDE",
+    "symptom": "หน้าแดง ตุ่มนูนคัน",
+    "report_date": "8/6/2026"
+  },
+  {
+    "name": "นางคำใหม่  สุขคำพา",
+    "hn": "000011667",
+    "agent": "TRAMADOL",
+    "symptom": "คลื่นไส้ อาเจียน เวียนศีรษะ รุนแรง",
+    "report_date": "9/6/2026"
+  },
+  {
+    "name": "นางละมัย  อินหน่อ",
+    "hn": "000020077",
+    "agent": "TRAMADOL",
+    "symptom": "คลื่นไส้ อาเจียน เวียนศีรษะ",
+    "report_date": "9/6/2026"
+  },
+  {
+    "name": "นางสิน  เฮียงกัน",
+    "hn": "000007239",
+    "agent": "gabapentin",
+    "symptom": "คลื่นไส้ อาเจียน เวียนศีรษะ",
+    "report_date": "10/6/2026"
+  },
+  {
+    "name": "นายเฉย  คำผิวพา",
+    "hn": "000046775",
+    "agent": "DICLOFENAC",
+    "symptom": "ผื่นคัน",
+    "report_date": "11/6/2026"
+  },
+  {
+    "name": "นายเฉย  คำผิวพา",
+    "hn": "000046775",
+    "agent": "Danzen (serratiopeptidase)",
+    "symptom": "ผื่นคัน",
+    "report_date": "11/6/2026"
+  },
+  {
+    "name": "นางอำพร  เงื่อนจันทร์ทอง",
+    "hn": "000015921",
+    "agent": "gabapentin",
+    "symptom": "คลื่นไส้ อาเจียน เวียนศีรษะ",
+    "report_date": "16/6/2026"
+  },
+  {
+    "name": "นายกาส  พรมภาพ",
+    "hn": "000011592",
+    "agent": "ASPIRIN",
+    "symptom": "ผื่นขึ้นทั้งตัว",
+    "report_date": "17/6/2026"
+  },
+  {
+    "name": "น.ส.ธนาภรณ์  แซ่วื่อ",
+    "hn": "000072477",
+    "agent": "triferdine",
+    "symptom": "ผื่นที่แขนขา แน่นหน้าอกหายใจไม่สะดวก",
+    "report_date": "17/6/2026"
+  },
+  {
+    "name": "นางสมพูล  พุ่มเกษม",
+    "hn": "000051772",
+    "agent": "HCTZ-HYDROCHLOROTHIAZIDE",
+    "symptom": "hyponatremia",
+    "report_date": "19/6/2026"
+  },
+  {
+    "name": "ด.ช.เมธาสิทธิ์  จันทะคุณ",
+    "hn": "000074598",
+    "agent": "R/O Augmentin(Amox+Clavulanic)",
+    "symptom": "ผื่นคัน",
+    "report_date": "20/6/2026"
+  },
+  {
+    "name": "นายชนกานต์  แช่มดนตรี",
+    "hn": "000047367",
+    "agent": "CEFTRIAXONE",
+    "symptom": "RASH",
+    "report_date": "27/6/2026"
+  },
+  {
+    "name": "นายชนกานต์  แช่มดนตรี",
+    "hn": "000047367",
+    "agent": "CLINDAMYCIN",
+    "symptom": "RASH",
+    "report_date": "27/6/2026"
+  },
+  {
+    "name": "พระถนัดจิต  จรูญเพ็ญ",
+    "hn": "000076942",
+    "agent": "GPOVIRZ",
+    "symptom": "ผื่นคันบริเวณใบหน้า ดวงตา ริมฝีปาก",
+    "report_date": "29/6/2026"
+  },
+  {
+    "name": "นายเขียน  แสงปัญญา",
+    "hn": "000008823",
+    "agent": "Valproate sodium",
+    "symptom": "เป็นแผลที่ลิ้น",
+    "report_date": "1/7/2026"
+  },
+  {
+    "name": "นางกลิ่น  จันทะคุณ",
+    "hn": "000017894",
+    "agent": "gabapentin",
+    "symptom": "Anaphylaxis (ผื่นคัน + แน่นหน้าอก + แผลในปาก)",
+    "report_date": "1/7/2026"
+  },
+  {
+    "name": "นางบุญรวง  พันพร",
+    "hn": "000054285",
+    "agent": "TRAMADOL",
+    "symptom": "เวียนศีรษะ คลื่นไส้",
+    "report_date": "6/7/2026"
+  },
+  {
+    "name": "นายคำพอง  เสวะดี",
+    "hn": "000082143",
+    "agent": "AUGMENTIN  TAB",
+    "symptom": "maculopupura rash",
+    "report_date": "6/7/2026"
+  },
+  {
+    "name": "นางฝั่ง  กันล้อม",
+    "hn": "000023053",
+    "agent": "gabapentin",
+    "symptom": "คลื่นไส้ วิงเวียน รุนแรง",
+    "report_date": "7/7/2026"
+  },
+  {
+    "name": "นางจำรัส  จันทะคุณ",
+    "hn": "000014459",
+    "agent": "DOXAZOSIN",
+    "symptom": "เป็นผื่นจุด ๆ ตามตัว มีอาการคัน",
+    "report_date": "12/7/2026"
+  },
+  {
+    "name": "นางจำรัส  จันทะคุณ",
+    "hn": "000014459",
+    "agent": "sodamint 300 mg",
+    "symptom": "เป็นผื่นตามตัว คัน ไม่มีหายใจเหนื่อยหอย",
+    "report_date": "12/7/2026"
+  },
+  {
+    "name": "นายจ้งนา  แซ่หลอ",
+    "hn": "000033914",
+    "agent": "Piperacillin + Tazobactam",
+    "symptom": "ผื่นเป็นจุด ๆ บริเวณ หน้าอก และหลัง ไม่มีไข้ ไม่มีเหนื่อยหอบ มีอาการคันร่วมด้วย",
+    "report_date": "12/7/2026"
+  },
+  {
+    "name": "นางบุญจันทร์  สีอาตปัญญา",
+    "hn": "000010290",
+    "agent": "ultravist",
+    "symptom": "urticaria หน้าหลัง",
+    "report_date": "18/7/2026"
+  },
+  {
+    "name": "นางฐานิตา  เพ็ญสุภา",
+    "hn": "000056959",
+    "agent": "ORPHENADRINE",
+    "symptom": "ปากแห้ง คอแห้ง",
+    "report_date": "20/7/2026"
+  },
+  {
+    "name": "นายสุวัฒน์  สีหะวงษ์",
+    "hn": "000084809",
+    "agent": "Zinc sulfate",
+    "symptom": "ตุ่มน้ำ แขน ขา",
+    "report_date": "23/7/2026"
+  },
+  {
+    "name": "นางมิตร  พิมภา",
+    "hn": "000015689",
+    "agent": "TRAMADOL",
+    "symptom": "คลื่นไส้ อาเจียน",
+    "report_date": "31/7/2026"
+  },
+  {
+    "name": "น.ส.ชณัญภรณ์  จันทะวงษ์",
+    "hn": "000051748",
+    "agent": "IBUPROFEN",
+    "symptom": "คลื่นไส้  อาเจียน",
+    "report_date": "31/7/2026"
+  },
+  {
+    "name": "นายใบ  แสงบุตรดี",
+    "hn": "000058779",
+    "agent": "CEFTRIAXONE",
+    "symptom": "rash",
+    "report_date": "31/7/2026"
+  },
+  {
+    "name": "ด.ช.ณัฐนนท์  กีเวียน",
+    "hn": "000066486",
+    "agent": "AMOXICILLIN",
+    "symptom": "Acute generlaised exanthematous Pustulosis",
+    "report_date": "31/7/2026"
+  },
+  {
+    "name": "ด.ญ.ณัฎฐธิดา  อำไทยสงฆ์",
+    "hn": "000086838",
+    "agent": "DICLOXACILLIN",
+    "symptom": "ผื่นคัน",
+    "report_date": "4/8/2026"
+  },
+  {
+    "name": "นางทวี  ม่วงทิม",
+    "hn": "000009958",
+    "agent": "TRAMADOL",
+    "symptom": "คลื่นไส้ อาเจียน เวียนศีรษะ",
+    "report_date": "5/8/2026"
+  },
+  {
+    "name": "นายทองขาว  อินสาย",
+    "hn": "000047638",
+    "agent": "PHENYTOIN",
+    "symptom": "MP rash",
+    "report_date": "5/8/2026"
   }
 ]
